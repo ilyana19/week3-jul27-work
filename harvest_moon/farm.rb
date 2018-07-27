@@ -1,9 +1,12 @@
 require_relative 'crop'
 
 class Farm < Crop
+  # create accessors
+  attr_accessor :total_harvest
+
   def initialize(name)
     @name = name
-    @field = []
+    @fields = []
     @total_harvest = 0
   end
 
@@ -60,7 +63,7 @@ class Farm < Crop
     print "\nHow large is the field (hectares)? "
     size = gets.to_i
 
-    @field << Crop.new(crop, size) # => add to the field array
+    @fields << Crop.new(crop, size) # => add to the field array
 
     puts "\nAdded a #{crop} field of #{size} hectares!"
 
@@ -73,6 +76,14 @@ class Farm < Crop
   end
 
   def status
+    sleep(2)
+    puts ""
+    @fields.each do |field|
+      puts "#{field.crop.capitalize} field is #{field.size} hectares."
+    end
+
+    puts "#{@name} Farm has #{@total_harvest} harvested food so far."
+    sleep(2)
   end
 
   def relax
