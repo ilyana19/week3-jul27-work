@@ -50,7 +50,8 @@ class Farm < Crop
   # available options/actions
   def create_field
     sleep(2)
-    puts "\nWhat kind of field is it?"
+    puts "\e[H\e[2J"
+    puts "What kind of field is it?"
     puts <<~TEXT
       --------------------
         Available Crops
@@ -68,24 +69,39 @@ class Farm < Crop
     puts "\nAdded a #{crop} field of #{size} hectares!"
 
     sleep(2)
+    puts "\e[H\e[2J"
 
     # have not added a check for unavailable crops
   end
 
   def harvest
+
+    harvested # => call this method at the end to show total harvest
   end
 
   def status
     sleep(2)
-    puts ""
+    puts "\e[H\e[2J"
+    puts <<~TEXT
+      --------------------
+      #{@name} Farm Stats
+      --------------------
+    TEXT
+
     @fields.each do |field|
       puts "#{field.crop.capitalize} field is #{field.size} hectares."
     end
 
-    puts "#{@name} Farm has #{@total_harvest} harvested food so far."
+    harvested
     sleep(2)
+    puts "\e[H\e[2J"
   end
 
   def relax
+  end
+
+  # creating one because this particular status is being used elsewhere as well.
+  def harvested
+    puts "#{@name} Farm has #{@total_harvest} harvested food so far."
   end
 end
