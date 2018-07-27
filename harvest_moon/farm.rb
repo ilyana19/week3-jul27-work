@@ -22,6 +22,7 @@ class Farm < Crop
       harvest -> harvests crops and adds to total harvested
       status -> displays some information about the farm
       relax -> provides lovely descriptions of your fields
+      buy -> buy new seeds
       exit -> exits the program
       --------------------
 
@@ -43,6 +44,7 @@ class Farm < Crop
     when 'harvest' then harvest
     when 'status' then status
     when 'relax' then relax
+    when 'buy' then buy
     when 'exit' then end_game
     end
   end
@@ -152,5 +154,28 @@ class Farm < Crop
   # creating one because this particular status is being used elsewhere as well.
   def harvested
     puts "#{@name} Farm has #{@total_harvest} harvested food so far."
+  end
+
+  def buy
+    sleep(1)
+    puts "\e[H\e[2J"
+    puts <<~TEXT
+      --------------------
+          General Store
+      --------------------
+      What would you like to buy?
+    TEXT
+
+    new_crop = gets.chomp.downcase
+    super(new_crop)
+
+    sleep(1)
+    puts "\nHere are your new #{new_crop} seeds."
+
+    puts "\nReturning to #{@name} Farm...".upcase
+    sleep(4)
+    puts "\e[H\e[2J"
+
+    # should be able to check if it's a valid crop type...
   end
 end
