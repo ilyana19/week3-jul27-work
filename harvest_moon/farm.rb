@@ -69,6 +69,7 @@ class Farm < Crop
     puts "\nAdded a #{type} field of #{size} hectares!"
 
     sleep(2)
+    puts "\nprocessing...".upcase
     puts "\e[H\e[2J"
 
     # have not added a check for unavailable crops
@@ -91,8 +92,11 @@ class Farm < Crop
     puts ""
     harvested # => call this method at the end to show total harvest
 
+    puts "\nprocessing...".upcase
     sleep(4)
     puts "\e[H\e[2J"
+
+    # should not be able to harvest if there are no fields available
   end
 
   def status
@@ -109,11 +113,33 @@ class Farm < Crop
     end
 
     harvested
-    sleep(2)
+    puts "\nprocessing...".upcase
+    sleep(4)
     puts "\e[H\e[2J"
   end
 
+  # list a description of the fields
   def relax
+    sleep(1)
+    puts "\e[H\e[2J"
+    puts <<~TEXT
+      --------------------
+            Relaxing
+      --------------------
+    TEXT
+
+    @fields.each do |field|
+      case field.type
+      when 'corn'
+        puts "#{field.size} hectares of tall green stalks rustling in the breeze fill your horizon."
+      when 'wheat'
+        puts "The sun hangs low, casting an orange glow on a sea of #{field.size} hectares of wheat."
+      end
+    end
+
+    puts "\nprocessing...".upcase
+    sleep(6)
+    puts "\e[H\e[2J"
   end
 
   # creating one because this particular status is being used elsewhere as well.
