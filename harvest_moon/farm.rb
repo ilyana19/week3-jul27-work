@@ -3,12 +3,15 @@ require_relative 'crop'
 class Farm < Crop
   def initialize(name)
     @name = name
+    @field = []
+    @total_harvest = 0
   end
 
   def display_menu
-    puts "\nWelcome to #{@name} Farm".upcase
-    puts <<~TEXT
+    puts "----------------------------------------"
+    puts "Welcome to #{@name} Farm".upcase
 
+    puts <<~TEXT
       --------------------
             Options
       --------------------
@@ -39,5 +42,39 @@ class Farm < Crop
     when 'relax' then relax
     when 'exit' then exit
     end
+  end
+
+  # available options/actions
+  def create_field
+    sleep(2)
+    puts "\nWhat kind of field is it?"
+    puts <<~TEXT
+      --------------------
+        Available Crops
+      --------------------
+    TEXT
+    Crop.show_all
+    puts "--------------------"
+    crop = gets.chomp.downcase
+
+    print "\nHow large is the field (hectares)? "
+    size = gets.to_i
+
+    @field << Crop.new(crop, size) # => add to the field array
+
+    puts "\nAdded a #{crop} field of #{size} hectares!"
+
+    sleep(2)
+
+    # have not added a check for unavailable crops
+  end
+
+  def harvest
+  end
+
+  def status
+  end
+
+  def relax
   end
 end
