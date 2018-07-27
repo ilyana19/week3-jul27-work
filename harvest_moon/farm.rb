@@ -43,7 +43,7 @@ class Farm < Crop
     when 'harvest' then harvest
     when 'status' then status
     when 'relax' then relax
-    when 'exit' then exit
+    when 'exit' then end_game
     end
   end
 
@@ -86,7 +86,7 @@ class Farm < Crop
 
     @fields.each do |crop|
       @total_harvest += crop.yield
-      puts "Harvesting #{crop.yield} food from #{crop.size} hectare of #{crop.type} field."
+      puts "Harvesting #{crop.total_yields} food from #{crop.size} hectare of #{crop.type} field."
     end
 
     puts ""
@@ -94,7 +94,7 @@ class Farm < Crop
 
     puts "\nprocessing...".upcase
     sleep(4)
-    puts "\e[H\e[2J"
+    # puts "\e[H\e[2J"
 
     # should not be able to harvest if there are no fields available
   end
@@ -109,13 +109,13 @@ class Farm < Crop
     TEXT
 
     @fields.each do |field|
-      puts "#{field.crop.capitalize} field is #{field.size} hectares."
+      puts "#{field.type.capitalize} field is #{field.size} hectares."
     end
 
     harvested
     puts "\nprocessing...".upcase
     sleep(4)
-    puts "\e[H\e[2J"
+    # puts "\e[H\e[2J"
   end
 
   # list a description of the fields
@@ -140,6 +140,13 @@ class Farm < Crop
     puts "\nprocessing...".upcase
     sleep(6)
     puts "\e[H\e[2J"
+  end
+
+  def end_game
+    puts "\nSee you soon!".upcase
+    sleep(4)
+    puts "\e[H\e[2J"
+    exit
   end
 
   # creating one because this particular status is being used elsewhere as well.
