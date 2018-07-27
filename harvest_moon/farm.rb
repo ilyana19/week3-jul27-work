@@ -49,7 +49,7 @@ class Farm < Crop
 
   # available options/actions
   def create_field
-    sleep(2)
+    sleep(1)
     puts "\e[H\e[2J"
     puts "What kind of field is it?"
     puts <<~TEXT
@@ -59,14 +59,14 @@ class Farm < Crop
     TEXT
     Crop.show_all
     puts "--------------------"
-    crop = gets.chomp.downcase
+    type = gets.chomp.downcase
 
     print "\nHow large is the field (hectares)? "
     size = gets.to_i
 
-    @fields << Crop.new(crop, size) # => add to the field array
+    @fields << Crop.new(type, size) # => add to the field array
 
-    puts "\nAdded a #{crop} field of #{size} hectares!"
+    puts "\nAdded a #{type} field of #{size} hectares!"
 
     sleep(2)
     puts "\e[H\e[2J"
@@ -75,12 +75,28 @@ class Farm < Crop
   end
 
   def harvest
+    sleep(1)
+    puts "\e[H\e[2J"
+    puts <<~TEXT
+      ----------------------
+      #{@name} Farm Harvest
+      ----------------------
+    TEXT
 
+    @fields.each do |crop|
+      @total_harvest += crop.yield
+      puts "Harvesting #{crop.yield} food from #{crop.size} hectare of #{crop.type} field."
+    end
+
+    puts ""
     harvested # => call this method at the end to show total harvest
+
+    sleep(4)
+    puts "\e[H\e[2J"
   end
 
   def status
-    sleep(2)
+    sleep(1)
     puts "\e[H\e[2J"
     puts <<~TEXT
       --------------------
