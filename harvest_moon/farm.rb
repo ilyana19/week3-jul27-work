@@ -46,6 +46,10 @@ class Farm < Crop
     when 'relax' then relax
     when 'buy' then buy
     when 'exit' then end_game
+    else
+      puts "Inavlid Input".upcase
+      sleep(2)
+      puts "\e[H\e[2J"
     end
   end
 
@@ -63,12 +67,17 @@ class Farm < Crop
     puts "--------------------"
     type = gets.chomp.downcase
 
-    print "\nHow large is the field (hectares)? "
-    size = gets.to_i
+    # calls Crop.create_field and check the return value (true/false)
+    if super(type)
+      print "\nHow large is the field (hectares)? "
+      size = gets.to_i
 
-    @fields << Crop.new(type, size) # => add to the field array
+      @fields << Crop.new(type, size) # => add to the field array
 
-    puts "\nAdded a #{type} field of #{size} hectares!"
+      puts "\nAdded a #{type} field of #{size} hectares!"
+    else
+      puts "\nYou don't have the seeds."
+    end
 
     sleep(2)
     puts "\nprocessing...".upcase
@@ -96,9 +105,7 @@ class Farm < Crop
 
     puts "\nprocessing...".upcase
     sleep(4)
-    # puts "\e[H\e[2J"
-
-    # should not be able to harvest if there are no fields available
+    puts "\e[H\e[2J"
   end
 
   def status
@@ -114,10 +121,11 @@ class Farm < Crop
       puts "#{field.type.capitalize} field is #{field.size} hectares."
     end
 
+    puts ""
     harvested
     puts "\nprocessing...".upcase
     sleep(4)
-    # puts "\e[H\e[2J"
+    puts "\e[H\e[2J"
   end
 
   # list a description of the fields
@@ -136,6 +144,11 @@ class Farm < Crop
         puts "#{field.size} hectares of tall green stalks rustling in the breeze fill your horizon."
       when 'wheat'
         puts "The sun hangs low, casting an orange glow on a sea of #{field.size} hectares of wheat."
+      when 'turnip'
+        puts "The #{field.size} hectares of plump #{field.type}s are growing well even in this harsh season."
+      else
+        # generic line
+        puts "The #{field.size} fields of #{field.type} are doing well."
       end
     end
 
@@ -167,15 +180,13 @@ class Farm < Crop
     TEXT
 
     new_crop = gets.chomp.downcase
-    super(new_crop)
+    super(new_crop) # calls the 'buy' method in crop and pass in user input
 
     sleep(1)
-    puts "\nHere are your new #{new_crop} seeds."
-
     puts "\nReturning to #{@name} Farm...".upcase
     sleep(4)
     puts "\e[H\e[2J"
 
-    # should be able to check if it's a valid crop type...
+    # should be able to check if it's a valid crop type eg: can't buy shovel...
   end
 end
